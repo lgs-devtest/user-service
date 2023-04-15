@@ -19,7 +19,7 @@ public class GeoLocationService {
 
   public GeoLocationData getGeoLocation(final String ipAddress) {
 
-    Assert.notNull(ipAddress, "ipAddress can not be null");
+    Assert.hasLength(ipAddress, "ipAddress can not be null");
 
     return restTemplate.getForObject(GEO_LOCATION_SERVICE_URL + ipAddress, GeoLocationData.class);
   }
