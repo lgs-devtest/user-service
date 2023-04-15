@@ -10,3 +10,8 @@
 #### Then ...
 #### Access Swagger-UI at: `http://localhost:8080/swagger-ui/index.html`
 #### Access OpenAPI Documentation at: `http://localhost:8080/v2/api-docs`
+
+
+##TODO: (items that I want to improve if having more time)
+### The IP address validator currently support IPv4 only, Need to add a custom validator to support IPv6.
+### Implement Unittest for REST API endpoints, which help to verify the user registration endpoint, verify success or error response data.
