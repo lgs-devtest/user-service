@@ -9,24 +9,26 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.web.client.RestTemplate;
 
 import com.devtest.user.model.GeoLocationData;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 public class GeoLocationServiceTest {
 
-  @Mock
+  @MockBean
   private RestTemplate restTemplateMock;
 
-  @InjectMocks
+  @Value("${service.geoLocation.url}")
+  private String geoLocationServiceUrl;
+
+  @Autowired
   private GeoLocationService geoLocationService;
 
-  private static final String GEO_LOCATION_SERVICE_URL = "http://ip-api.com/json/";
 
   @Test()
   public void testGetGeoLocation_withNullIpAddress_Exception() {
@@ -82,14 +84,14 @@ public class GeoLocationServiceTest {
     stubbedLocationData.setRegionName("California");
     stubbedLocationData.setZip("95112");
 
-    when(restTemplateMock.getForObject(GEO_LOCATION_SERVICE_URL + notCanadaIp, GeoLocationData.class))
+    when(restTemplateMock.getForObject(geoLocationServiceUrl + notCanadaIp, GeoLocationData.class))
         .thenReturn(stubbedLocationData);
 
     // Invoke
     GeoLocationData resultLocationData = geoLocationService.getGeoLocation(notCanadaIp);
 
     // Verify
-    verify(restTemplateMock, times(1)).getForObject(GEO_LOCATION_SERVICE_URL + notCanadaIp, GeoLocationData.class);
+    verify(restTemplateMock, times(1)).getForObject(geoLocationServiceUrl + notCanadaIp, GeoLocationData.class);
 
     // Assert
     assertNotNull(resultLocationData);
@@ -116,14 +118,14 @@ public class GeoLocationServiceTest {
     stubbedLocationData.setRegionName("Quebec");
     stubbedLocationData.setZip("J4Y");
 
-    when(restTemplateMock.getForObject(GEO_LOCATION_SERVICE_URL + caIpAddress, GeoLocationData.class))
+    when(restTemplateMock.getForObject(geoLocationServiceUrl + caIpAddress, GeoLocationData.class))
         .thenReturn(stubbedLocationData);
 
     // Invoke
     GeoLocationData resultLocationData = geoLocationService.getGeoLocation(caIpAddress);
 
     // Verify
-    verify(restTemplateMock, times(1)).getForObject(GEO_LOCATION_SERVICE_URL + caIpAddress, GeoLocationData.class);
+    verify(restTemplateMock, times(1)).getForObject(geoLocationServiceUrl + caIpAddress, GeoLocationData.class);
 
     // Assert
     assertNotNull(resultLocationData);

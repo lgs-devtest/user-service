@@ -12,15 +12,9 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
       return false;
     }
 
-    if (!valueToValidate.matches(".*?[0-9].*")) {
-      return false;
-    }
-
-    if (!valueToValidate.matches(".*?[A-Z].*")) {
-      return false;
-    }
-
-    if (!valueToValidate.matches(".*?[_#$%.].*")) {
+    if (!valueToValidate.matches(".*?[0-9].*")
+        || !valueToValidate.matches(".*?[A-Z].*")
+        || !valueToValidate.matches(".*?[_#$%.].*")) {
       return false;
     }
 
